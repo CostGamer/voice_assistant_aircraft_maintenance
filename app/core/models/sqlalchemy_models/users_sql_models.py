@@ -15,9 +15,8 @@ if TYPE_CHECKING:
 class Users(Base):
     __tablename__ = "users"
 
-    email: Mapped[str] = mapped_column(nullable=False, unique=True)
+    login: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[bytes] = mapped_column(nullable=False)
-    balance: Mapped[float] = mapped_column(default=0, nullable=False)
 
     users_airlines: Mapped[list["UsersAirlines"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
@@ -50,5 +49,5 @@ class UsersAircrafts(Base):
         ForeignKey("aircrafts.id"), nullable=False
     )
 
-    user: Mapped["Users"] = relationship(back_populates="users_airlines")
+    user: Mapped["Users"] = relationship(back_populates="users_aircrafts")
     aircraft: Mapped["Aircrafts"] = relationship(back_populates="users_aircrafts")

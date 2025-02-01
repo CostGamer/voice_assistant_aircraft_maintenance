@@ -1,8 +1,8 @@
 """0001
 
-Revision ID: b42d6ff2eb4a
+Revision ID: f79333f4debf
 Revises:
-Create Date: 2025-02-01 19:57:40.050387
+Create Date: 2025-02-01 20:12:12.664167
 
 """
 
@@ -13,7 +13,7 @@ from alembic import op
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = "b42d6ff2eb4a"
+revision: str = "f79333f4debf"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -45,14 +45,13 @@ def upgrade() -> None:
     )
     op.create_table(
         "users",
-        sa.Column("email", sa.String(), nullable=False),
+        sa.Column("login", sa.String(), nullable=False),
         sa.Column("password", sa.LargeBinary(), nullable=False),
-        sa.Column("balance", sa.Float(), nullable=False),
         sa.Column(
             "id", sa.UUID(), server_default=sa.text("gen_random_uuid()"), nullable=False
         ),
         sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("email"),
+        sa.UniqueConstraint("login"),
     )
     op.create_table(
         "aircraft_parts",

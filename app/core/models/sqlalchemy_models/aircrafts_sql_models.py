@@ -34,6 +34,7 @@ class AircraftPart(Base):
 
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
+    serial_number: Mapped[str] = mapped_column(nullable=False, unique=True)
     aircraft_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("aircrafts.id"), nullable=False
     )

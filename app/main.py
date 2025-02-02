@@ -1,60 +1,46 @@
 from logging import getLogger
 
 from dishka.integrations.fastapi import setup_dishka
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer
 
 from app.api.exception_responses.exceptions import (
     invalid_username_password_error,
+    is_directory_error,
     refresh_token_expect_error,
+    speach_generation_error,
     user_already_exists_error,
 )
 from app.api.v1.controllers.auth_controller import auth_router
+from app.api.v1.controllers.voice_controller import voice_router
 from app.core.configs import all_settings
 from app.core.custom_exceptions import (
     ExpectRefreshTokenError,
     InvalidUsernameOrPasswordError,
+    SpeachGenerationError,
     UserWithThisLoginExistsError,
 )
 from app.core.utils.logger import init_logger
 from app.dependencies.container import container
+from app.middleware.check_jwt_middleware import CheckJWTAccessMiddleware
 from app.middleware.logging_middleware import LoggerMiddleware
 
 logger = getLogger(__name__)
-
-
-# @asynccontextmanager
-# async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-#     async with container() as request_container:
-#         # app.state.dishka_container = request_container
-#         # app.state.jwt_service = await request_container.get(JWTServiceProtocol)
-
-#         consumer_service: ConsumerService = await request_container.get(ConsumerService)
-#         bg_task_service: BackgroundTasksServiceProtocol = await request_container.get(
-#             BackgroundTasksServiceProtocol
-#         )
-
-#         async def run_tasks() -> None:
-#             await asyncio.gather(
-#                 consumer_service.consume_forever(),
-#                 bg_task_service.monitor_periodically(),
-#             )
-
-#         tasks: asyncio.Task = asyncio.create_task(run_tasks())
-
-#         yield
-#         tasks.cancel()
 
 
 def register_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(UserWithThisLoginExistsError, user_already_exists_error)  # type: ignore
     app.add_exception_handler(ExpectRefreshTokenError, refresh_token_expect_error)  # type: ignore
     app.add_exception_handler(InvalidUsernameOrPasswordError, invalid_username_password_error)  # type: ignore
+    app.add_exception_handler(SpeachGenerationError, speach_generation_error)  # type: ignore
+    app.add_exception_handler(IsADirectoryError, is_directory_error)  # type: ignore
 
 
 def init_routers(app: FastAPI) -> None:
-    # http_bearer = HTTPBearer(auto_error=True)
+    http_bearer = HTTPBearer(auto_error=True)
     app.include_router(auth_router, prefix="/v1")
+    app.include_router(voice_router, prefix="/v1", dependencies=[Depends(http_bearer)])
 
 
 def init_middlewares(app: FastAPI) -> None:
@@ -68,7 +54,7 @@ def init_middlewares(app: FastAPI) -> None:
         allow_headers=["*"],
     )
     app.add_middleware(LoggerMiddleware)
-    # app.add_middleware(CheckJWTAccessMiddleware)
+    app.add_middleware(CheckJWTAccessMiddleware)
 
 
 def setup_app() -> FastAPI:

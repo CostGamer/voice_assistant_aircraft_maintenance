@@ -9,7 +9,7 @@ from .base_sql_models import Base
 if TYPE_CHECKING:
     from .aircrafts_sql_models import Aircrafts
     from .airlines_sql_models import Airlines
-    from .report_sql_models import Report
+    from .session_sql_models import Session
 
 
 class Users(Base):
@@ -17,14 +17,12 @@ class Users(Base):
 
     login: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[bytes] = mapped_column(nullable=False)
+    name: Mapped[str] = mapped_column(nullable=False)
 
     users_airlines: Mapped[list["UsersAirlines"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
     users_aircrafts: Mapped[list["UsersAircrafts"]] = relationship(
-        back_populates="user", cascade="all, delete-orphan"
-    )
-    reports: Mapped[list["Report"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
 
@@ -51,3 +49,6 @@ class UsersAircrafts(Base):
 
     user: Mapped["Users"] = relationship(back_populates="users_aircrafts")
     aircraft: Mapped["Aircrafts"] = relationship(back_populates="users_aircrafts")
+    session: Mapped[list["Session"]] = relationship(
+        back_populates="users_aircrafts", cascade="all, delete-orphan"
+    )

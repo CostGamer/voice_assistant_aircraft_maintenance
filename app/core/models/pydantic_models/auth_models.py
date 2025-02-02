@@ -6,6 +6,7 @@ class RegisterUser(BaseModel):
 
     login: str = Field(..., description="user login")
     password: str = Field(..., description="user password")
+    name: str = Field(..., description="user fullname")
 
 
 class JWTUser(BaseModel):

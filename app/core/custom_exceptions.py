@@ -8,3 +8,15 @@ class ExpectRefreshTokenError(Exception):
 
 class InvalidUsernameOrPasswordError(Exception):
     pass
+
+
+class SpeachGenerationError(Exception):
+    pass
+
+
+class MissingOrBadJWTError(Exception):
+    pass
+
+
+class ExpectAccessTokenError(Exception):
+    pass

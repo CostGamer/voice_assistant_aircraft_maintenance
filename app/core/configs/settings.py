@@ -63,6 +63,16 @@ class JWTSettings(BaseModel):
     jwt_refresh_token_expire_days: int = Field(default=90)
 
 
+class YandexSettings(BaseModel):
+    yandex_synthesize_url: str = Field(default="link", alias="YANDEX_TTS_URL")
+    yandex_api_key: str = Field(default="key", alias="YANDEX_API_KEY")
+    yandex_voice: str = Field(default="ermil")
+    yandex_format: str = Field(default="mp3")
+    yandex_voice_temporary_storage: str = Field(
+        default="path", alias="YANDEX_VOICE_STORAGE"
+    )
+
+
 class OtherSettings(BaseModel):
     origins: str = Field(
         default="http://localhost:8000,http://127.0.0.1:8000", alias="ALLOWED_IPS"
@@ -79,3 +89,4 @@ class Settings(BaseModel):
     different: OtherSettings = Field(default_factory=lambda: OtherSettings(**env))
     redis: RedisSettings = Field(default_factory=lambda: RedisSettings(**env))
     jwt: JWTSettings = Field(default_factory=lambda: JWTSettings(**env))
+    yandex: YandexSettings = Field(default_factory=lambda: YandexSettings(**env))

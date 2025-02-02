@@ -17,6 +17,7 @@ class Users(Base):
 
     login: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[bytes] = mapped_column(nullable=False)
+    name: Mapped[str] = mapped_column(nullable=False)
 
     users_airlines: Mapped[list["UsersAirlines"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"

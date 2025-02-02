@@ -17,6 +17,7 @@ class AuthRepo:
             .values(
                 login=user.login,
                 password=self._hash_password(user.password),
+                name=user.name,
             )
             .returning(Users.id)
         )

@@ -1,3 +1,4 @@
+from logging import getLogger
 from typing import Any
 
 import jwt
@@ -10,6 +11,8 @@ from starlette.types import ASGIApp
 from app.core.configs import all_settings
 from app.core.configs.settings import ACCESS_TOKEN, TOKEN_TYPE_FIELD
 from app.core.custom_exceptions import ExpectAccessTokenError, MissingOrBadJWTError
+
+logger = getLogger(__name__)
 
 
 class CheckJWTAccessMiddleware(BaseHTTPMiddleware):
@@ -28,7 +31,7 @@ class CheckJWTAccessMiddleware(BaseHTTPMiddleware):
             token = token.split(" ", 1)[1]
 
             try:
-                token_payload: dict = await jwt.decode(
+                token_payload: dict = jwt.decode(
                     token, all_settings.jwt.jwt_secret, all_settings.jwt.jwt_algorithm
                 )
             except Exception:

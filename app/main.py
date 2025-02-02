@@ -1,8 +1,9 @@
 from logging import getLogger
 
 from dishka.integrations.fastapi import setup_dishka
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer
 
 from app.api.exception_responses.exceptions import (
     invalid_username_password_error,
@@ -22,6 +23,7 @@ from app.core.custom_exceptions import (
 )
 from app.core.utils.logger import init_logger
 from app.dependencies.container import container
+from app.middleware.check_jwt_middleware import CheckJWTAccessMiddleware
 from app.middleware.logging_middleware import LoggerMiddleware
 
 logger = getLogger(__name__)
@@ -36,9 +38,9 @@ def register_exception_handlers(app: FastAPI) -> None:
 
 
 def init_routers(app: FastAPI) -> None:
-    # http_bearer = HTTPBearer(auto_error=True)
+    http_bearer = HTTPBearer(auto_error=True)
     app.include_router(auth_router, prefix="/v1")
-    app.include_router(voice_router, prefix="/v1")
+    app.include_router(voice_router, prefix="/v1", dependencies=[Depends(http_bearer)])
 
 
 def init_middlewares(app: FastAPI) -> None:
@@ -52,7 +54,7 @@ def init_middlewares(app: FastAPI) -> None:
         allow_headers=["*"],
     )
     app.add_middleware(LoggerMiddleware)
-    # app.add_middleware(CheckJWTAccessMiddleware)
+    app.add_middleware(CheckJWTAccessMiddleware)
 
 
 def setup_app() -> FastAPI:

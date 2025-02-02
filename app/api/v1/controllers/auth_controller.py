@@ -14,7 +14,7 @@ from app.core.schemas.service_protocols import (
     ReissueTokenServiceProtocol,
 )
 
-auth_router = APIRouter(prefix="/auth", tags=["jwt"])
+auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @auth_router.post(

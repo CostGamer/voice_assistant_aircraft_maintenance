@@ -65,6 +65,36 @@ get_token_reissue_exceptions = {
     },
 }
 
+
+post_synthesize_exceptions = {
+    400: {
+        "speach_generation_error": {
+            "summary": "SpeachGenerationError",
+            "value": {"detail": "Speach can not generated"},
+        },
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+        "is_directory_error": {
+            "summary": "IsADirectoryError",
+            "value": {"detail": "Is a directory, not a file"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+}
+
+
 get_user_register_responses = create_error_responses(get_user_register_exceptions)
 get_user_login_responses = create_error_responses(get_user_login_exceptions)
 get_token_reissue_responses = create_error_responses(get_token_reissue_exceptions)
+post_synthesize_responses = create_error_responses(post_synthesize_exceptions)

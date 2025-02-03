@@ -3,8 +3,10 @@ from fastapi.responses import JSONResponse
 
 from app.core.custom_exceptions import (
     ExpectRefreshTokenError,
+    FormatError,
     InvalidUsernameOrPasswordError,
     SpeachGenerationError,
+    SpeachRecognitionError,
     UserWithThisLoginExistsError,
 )
 
@@ -41,7 +43,7 @@ async def speach_generation_error(
 ) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
-        content={"detail": "Speach can not generated"},
+        content={"detail": "Speach can not be generated"},
     )
 
 
@@ -49,4 +51,20 @@ async def is_directory_error(request: Request, exc: IsADirectoryError) -> JSONRe
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content={"detail": "Is a directory, not a file"},
+    )
+
+
+async def format_error(request: Request, exc: FormatError) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"detail": "The file format is incorrect"},
+    )
+
+
+async def speach_recognition_error(
+    request: Request, exc: SpeachRecognitionError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"detail": "The file can not be recognized"},
     )

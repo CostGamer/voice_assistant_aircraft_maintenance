@@ -1,0 +1,82 @@
+<!-- НЕ РАБОТАЕТ, для тестирования POST /recognize -->
+<!DOCTYPE html> 
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись аудио</title>
+</head>
+<body>
+    <h1>Запись речи</h1>
+    <button id="start-recording">Начать запись</button>
+    <button id="stop-recording" disabled>Остановить запись</button>
+    <audio id="audio-preview" controls></audio>
+    <button id="send-audio" disabled>Отправить на сервер</button>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+
+        document.getElementById('start-recording').onclick = async () => {
+            console.log("Запись аудио начата...");
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+                console.log("Данные аудио доступны:", event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                document.getElementById('audio-preview').src = audioUrl;
+                document.getElementById('send-audio').disabled = false;
+
+                // Сбросим массив после остановки записи
+                audioChunks = [];
+                console.log("Запись остановлена. Аудиофайл готов к отправке.");
+            };
+
+            mediaRecorder.start();
+            document.getElementById('stop-recording').disabled = false;
+            document.getElementById('start-recording').disabled = true;
+        };
+
+        document.getElementById('stop-recording').onclick = () => {
+            console.log("Остановка записи...");
+            mediaRecorder.stop();
+            document.getElementById('stop-recording').disabled = true;
+            document.getElementById('start-recording').disabled = false;
+        };
+
+        document.getElementById('send-audio').onclick = async () => {
+            console.log("Отправка аудио на сервер...");
+
+            // Создаем Blob с типом audio/mp3
+            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+            const formData = new FormData();
+            formData.append("file", audioBlob, "audio.mp3"); // Убедитесь, что имя файла и поле соответствуют ожиданиям сервера
+
+            try {
+                const response = await fetch('http://localhost:8001/v1/voice/recognize', {
+                    method: 'POST',
+                    body: formData,
+                    // Заголовки не нужны для FormData, браузер автоматически добавляет multipart/form-data
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
+                }
+
+                const result = await response.json(); // Предполагаем, что сервер возвращает JSON
+                console.log("Распознанный текст:", result);
+                alert("Распознанный текст: " + result.text); // Предполагаем, что сервер возвращает объект с полем "text"
+            } catch (error) {
+                console.error("Ошибка при отправке аудио:", error);
+                alert("Ошибка при отправке аудио: " + error.message);
+            }
+        };
+    </script>
+</body>
+</html>

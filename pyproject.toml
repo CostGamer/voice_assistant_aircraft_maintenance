@@ -23,6 +23,8 @@ aiohttp = "^3.11.11"
 aiofiles = "^24.1.0"
 types-aiofiles = "^24.1.0.20241221"
 pydub = "^0.25.1"
+python-multipart = "^0.0.20"
+speechrecognition = "^3.14.1"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -12,6 +12,7 @@ from app.core.schemas.service_protocols import (
     GetUserServiceProtocol,
     JWTServiceProtocol,
     LoginAuthServiceProtocol,
+    RecognitionServiceProtocol,
     RegisterAuthServiceProtocol,
     ReissueTokenServiceProtocol,
     SynthesizeServiceProtocol,
@@ -22,6 +23,7 @@ from app.services import (
     GetUserService,
     JWTService,
     LoginAuthService,
+    RecognitionService,
     RegisterAuthService,
     ReissueTokenService,
     SynthesizeService,
@@ -80,3 +82,11 @@ class ServiceProviders(Provider):
         common_service: CommonServiceProtocol,
     ) -> GetUserServiceProtocol:
         return GetUserService(user_repo, common_service)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_recognize_service(
+        self,
+        settings: Settings,
+        file_service: FileServiceProtocol,
+    ) -> RecognitionServiceProtocol:
+        return RecognitionService(settings, file_service)

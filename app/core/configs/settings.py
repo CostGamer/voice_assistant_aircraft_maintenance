@@ -64,7 +64,8 @@ class JWTSettings(BaseModel):
 
 
 class YandexSettings(BaseModel):
-    yandex_synthesize_url: str = Field(default="link", alias="YANDEX_TTS_URL")
+    yandex_synthesize_url: str = Field(default="link", alias="YANDEX_TTS_S_URL")
+    yandex_recognizer_url: str = Field(default="link", alias="YANDEX_TTS_R_URL")
     yandex_api_key: str = Field(default="key", alias="YANDEX_API_KEY")
     yandex_voice: str = Field(default="ermil")
     yandex_format: str = Field(default="mp3")

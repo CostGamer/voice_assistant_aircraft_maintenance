@@ -20,3 +20,11 @@ class MissingOrBadJWTError(Exception):
 
 class ExpectAccessTokenError(Exception):
     pass
+
+
+class SpeachRecognitionError(Exception):
+    pass
+
+
+class FormatError(Exception):
+    pass

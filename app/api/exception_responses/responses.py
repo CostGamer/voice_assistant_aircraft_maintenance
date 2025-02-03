@@ -69,7 +69,7 @@ post_synthesize_exceptions = {
     400: {
         "speach_generation_error": {
             "summary": "SpeachGenerationError",
-            "value": {"detail": "Speach can not generated"},
+            "value": {"detail": "Speach can not be generated"},
         },
         "expect_access_token_error": {
             "summary": "ExpectAccessTokenError",
@@ -111,9 +111,36 @@ get_user_info_exceptions = {
     },
 }
 
+post_recognition_exceptions = {
+    400: {
+        "speach_recognition_error": {
+            "summary": "SpeachRecognitionError",
+            "value": {"detail": "The file can not be recognized"},
+        },
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+        "format_error": {
+            "summary": "FormatError",
+            "value": {"detail": "The file format is incorrect"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+}
 
 get_user_register_responses = create_error_responses(get_user_register_exceptions)
 get_user_login_responses = create_error_responses(get_user_login_exceptions)
 get_token_reissue_responses = create_error_responses(get_token_reissue_exceptions)
 post_synthesize_responses = create_error_responses(post_synthesize_exceptions)
 get_user_info_responses = create_error_responses(get_user_info_exceptions)
+post_recognition_responses = create_error_responses(post_recognition_exceptions)

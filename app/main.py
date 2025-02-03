@@ -6,10 +6,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 
 from app.api.exception_responses.exceptions import (
+    format_error,
     invalid_username_password_error,
     is_directory_error,
     refresh_token_expect_error,
     speach_generation_error,
+    speach_recognition_error,
     user_already_exists_error,
 )
 from app.api.v1.controllers.auth_controller import auth_router
@@ -18,8 +20,10 @@ from app.api.v1.controllers.voice_controller import voice_router
 from app.core.configs import all_settings
 from app.core.custom_exceptions import (
     ExpectRefreshTokenError,
+    FormatError,
     InvalidUsernameOrPasswordError,
     SpeachGenerationError,
+    SpeachRecognitionError,
     UserWithThisLoginExistsError,
 )
 from app.core.utils.logger import init_logger
@@ -36,6 +40,8 @@ def register_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(InvalidUsernameOrPasswordError, invalid_username_password_error)  # type: ignore
     app.add_exception_handler(SpeachGenerationError, speach_generation_error)  # type: ignore
     app.add_exception_handler(IsADirectoryError, is_directory_error)  # type: ignore
+    app.add_exception_handler(FormatError, format_error)  # type: ignore
+    app.add_exception_handler(SpeachRecognitionError, speach_recognition_error)  # type: ignore
 
 
 def init_routers(app: FastAPI) -> None:

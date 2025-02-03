@@ -1,10 +1,15 @@
 from dishka import Provider, Scope, provide
 
 from app.core.configs.settings import Settings
-from app.core.schemas.repo_protocols import AuthRepoProtocol, CommonRepoProtocol
+from app.core.schemas.repo_protocols import (
+    AuthRepoProtocol,
+    CommonRepoProtocol,
+    UserRepoProtocol,
+)
 from app.core.schemas.service_protocols import (
     CommonServiceProtocol,
     FileServiceProtocol,
+    GetUserServiceProtocol,
     JWTServiceProtocol,
     LoginAuthServiceProtocol,
     RegisterAuthServiceProtocol,
@@ -14,6 +19,7 @@ from app.core.schemas.service_protocols import (
 from app.services import (
     CommonService,
     FileService,
+    GetUserService,
     JWTService,
     LoginAuthService,
     RegisterAuthService,
@@ -66,3 +72,11 @@ class ServiceProviders(Provider):
         self,
     ) -> FileServiceProtocol:
         return FileService()
+
+    @provide(scope=Scope.REQUEST)
+    async def get_user_service(
+        self,
+        user_repo: UserRepoProtocol,
+        common_service: CommonServiceProtocol,
+    ) -> GetUserServiceProtocol:
+        return GetUserService(user_repo, common_service)

@@ -4,9 +4,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.schemas.repo_protocols import (
     AuthRepoProtocol,
     CommonRepoProtocol,
+    MaintenanceRepoProtocol,
     UserRepoProtocol,
 )
-from app.repositories import AuthRepo, CommonRepo, UserRepo
+from app.repositories import AuthRepo, CommonRepo, MaintenanceRepo, UserRepo
 
 
 class RepoProviders(Provider):
@@ -21,3 +22,7 @@ class RepoProviders(Provider):
     @provide(scope=Scope.REQUEST)
     async def get_user_repo(self, con: AsyncSession) -> UserRepoProtocol:
         return UserRepo(con)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_maintenance_repo(self, con: AsyncSession) -> MaintenanceRepoProtocol:
+        return MaintenanceRepo(con)

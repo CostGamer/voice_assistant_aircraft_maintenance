@@ -20,7 +20,6 @@ class MaintenanceStep(Base):
     part_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("aircraft_parts.id"), nullable=False
     )
-    status: Mapped[int] = mapped_column(nullable=True)
 
     part: Mapped["AircraftPart"] = relationship(
         "AircraftPart", back_populates="maintenance_steps"

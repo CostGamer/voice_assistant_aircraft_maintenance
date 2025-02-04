@@ -4,6 +4,7 @@ from app.core.configs.settings import Settings
 from app.core.schemas.repo_protocols import (
     AuthRepoProtocol,
     CommonRepoProtocol,
+    MaintenanceRepoProtocol,
     UserRepoProtocol,
 )
 from app.core.schemas.service_protocols import (
@@ -12,6 +13,7 @@ from app.core.schemas.service_protocols import (
     GetUserServiceProtocol,
     JWTServiceProtocol,
     LoginAuthServiceProtocol,
+    MaintenanceServiceProtocol,
     RecognitionServiceProtocol,
     RegisterAuthServiceProtocol,
     ReissueTokenServiceProtocol,
@@ -23,6 +25,7 @@ from app.services import (
     GetUserService,
     JWTService,
     LoginAuthService,
+    MaintenanceService,
     RecognitionService,
     RegisterAuthService,
     ReissueTokenService,
@@ -90,3 +93,11 @@ class ServiceProviders(Provider):
         file_service: FileServiceProtocol,
     ) -> RecognitionServiceProtocol:
         return RecognitionService(settings, file_service)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_maintenance_service(
+        self,
+        maintenance_repo: MaintenanceRepoProtocol,
+        common_service: CommonServiceProtocol,
+    ) -> MaintenanceServiceProtocol:
+        return MaintenanceService(maintenance_repo, common_service)

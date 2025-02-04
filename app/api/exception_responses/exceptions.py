@@ -7,6 +7,7 @@ from app.core.custom_exceptions import (
     InvalidUsernameOrPasswordError,
     SpeachGenerationError,
     SpeachRecognitionError,
+    UserHasNotPermissionToAircraftError,
     UserWithThisLoginExistsError,
 )
 
@@ -67,4 +68,13 @@ async def speach_recognition_error(
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content={"detail": "The file can not be recognized"},
+    )
+
+
+async def no_permission_error(
+    request: Request, exc: UserHasNotPermissionToAircraftError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_403_FORBIDDEN,
+        content={"detail": "User has not permission to this aircraft"},
     )

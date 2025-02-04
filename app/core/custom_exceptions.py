@@ -28,3 +28,7 @@ class SpeachRecognitionError(Exception):
 
 class FormatError(Exception):
     pass
+
+
+class UserHasNotPermissionToAircraftError(Exception):
+    pass

@@ -5,12 +5,14 @@ from pydantic import UUID4
 from app.api.exception_responses.responses import (
     get_completed_sessions_responses,
     get_current_session_responses,
+    patch_maintenance_step_responses,
     post_session_responses,
 )
-from app.core.models.pydantic_models import GetSession, PostSession
+from app.core.models.pydantic_models import GetSession, PostSession, PutStepSession
 from app.core.schemas.service_protocols import (
     GetCompletedUserSessionServiceProtocol,
     GetCurrentSessionServiceProtocol,
+    PatchStepSessionServiceProtocol,
     PostSessionServiceProtocol,
 )
 
@@ -58,3 +60,18 @@ async def get_completed_sessions(
     get_session_service: FromDishka[GetCompletedUserSessionServiceProtocol],
 ) -> list[GetSession]:
     return await get_session_service(request)
+
+
+@session_router.patch(
+    "/step",
+    response_model=GetSession,
+    responses=patch_maintenance_step_responses,
+    description="Post step info of the complited maintenance step",
+)
+@inject
+async def post_maintenance_step(
+    request: Request,
+    step_data: PutStepSession,
+    get_session_service: FromDishka[PatchStepSessionServiceProtocol],
+) -> GetSession:
+    return await get_session_service(request, step_data)

@@ -17,6 +17,7 @@ from app.core.schemas.service_protocols import (
     JWTServiceProtocol,
     LoginAuthServiceProtocol,
     MaintenanceServiceProtocol,
+    PatchStepSessionServiceProtocol,
     PostSessionServiceProtocol,
     RecognitionServiceProtocol,
     RegisterAuthServiceProtocol,
@@ -32,6 +33,7 @@ from app.services import (
     JWTService,
     LoginAuthService,
     MaintenanceService,
+    PatchStepSessionService,
     PostSessionService,
     RecognitionService,
     RegisterAuthService,
@@ -133,3 +135,11 @@ class ServiceProviders(Provider):
         common_service: CommonServiceProtocol,
     ) -> GetCompletedUserSessionServiceProtocol:
         return GetCompletedUserSessionService(session_repo, common_service)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_step_session_service(
+        self,
+        session_repo: SessionRepoProtocol,
+        common_service: CommonServiceProtocol,
+    ) -> PatchStepSessionServiceProtocol:
+        return PatchStepSessionService(session_repo, common_service)

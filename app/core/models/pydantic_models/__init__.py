@@ -3,7 +3,7 @@ from .airlines_models import Airlines
 from .auth_models import JWTTokenInfo, JWTUser, RegisterUser
 from .enum_models import StatusEnum
 from .maintenance_models import Maintance
-from .session_models import GetSession, PostSession
+from .session_models import GetSession, PostSession, PutStepSession
 from .user_models import GetUser, User
 
 __all__ = [
@@ -16,6 +16,7 @@ __all__ = [
     "Maintance",
     "AircraftPart",
     "GetAircraftParts",
+    "PutStepSession",
     "User",
     "StatusEnum",
     "PostSession",

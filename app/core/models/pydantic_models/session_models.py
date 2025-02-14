@@ -26,6 +26,17 @@ class GetSession(SessionBase):
     current_step_id: UUID4 | None = Field(
         ..., description="Current maintenance step ID"
     )
-    dialog_history: dict | None = Field(
+    dialog_history: dict = Field(
         ..., description="Dialogue history as a list of messages"
+    )
+
+
+class PutStepSession(BaseModel):
+    current_step_id: UUID4 = Field(..., description="Current maintenance step ID")
+    aircraft_part: str = Field(..., description="The name of the aircraft part")
+    command_for_maintainer: str = Field(
+        ..., description="The command that voice assistant give"
+    )
+    maintainer_reply: str = Field(
+        ..., description="The text represantation of the worker reply"
     )

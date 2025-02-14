@@ -7,6 +7,7 @@ from .recognition_service import RecognitionService
 from .session_service import (
     GetCompletedUserSessionService,
     GetCurrentSessionService,
+    PatchStepSessionService,
     PostSessionService,
 )
 from .synthesize_service import SynthesizeService
@@ -14,6 +15,7 @@ from .user_services import GetUserService
 
 __all__ = [
     "JWTService",
+    "PatchStepSessionService",
     "ReissueTokenService",
     "RegisterAuthService",
     "MaintenanceService",

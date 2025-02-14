@@ -236,6 +236,35 @@ get_completed_sessions_exceptions = {
     },
 }
 
+patch_maintenance_step_exceptions = {
+    400: {
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+    404: {
+        "step_not_found_error": {
+            "summary": "StepNotExistsError",
+            "value": {"detail": "This maintenance steps does not exist"},
+        },
+        "aircraft_part_not_found_error": {
+            "summary": "AircraftPartNotExistsError",
+            "value": {"detail": "This aircraft part does not exist"},
+        },
+    },
+}
+
 
 get_user_register_responses = create_error_responses(get_user_register_exceptions)
 get_user_login_responses = create_error_responses(get_user_login_exceptions)
@@ -250,4 +279,7 @@ post_session_responses = create_error_responses(post_session_exceptions)
 get_current_session_responses = create_error_responses(get_current_session_exceptions)
 get_completed_sessions_responses = create_error_responses(
     get_completed_sessions_exceptions
+)
+patch_maintenance_step_responses = create_error_responses(
+    patch_maintenance_step_exceptions
 )

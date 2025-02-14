@@ -40,3 +40,11 @@ class UserHasNoSessionError(Exception):
 
 class HaveOpenSessionError(Exception):
     pass
+
+
+class StepNotExistsError(Exception):
+    pass
+
+
+class AircraftPartNotExistsError(Exception):
+    pass

@@ -11,6 +11,7 @@ from .recognition_service_protocols import RecognitionServiceProtocol
 from .session_service_protocols import (
     GetCompletedUserSessionServiceProtocol,
     GetCurrentSessionServiceProtocol,
+    PatchStepSessionServiceProtocol,
     PostSessionServiceProtocol,
 )
 from .synthesize_service_protocols import SynthesizeServiceProtocol
@@ -19,6 +20,7 @@ from .user_service_protocols import GetUserServiceProtocol
 __all__ = [
     "JWTServiceProtocol",
     "CommonServiceProtocol",
+    "PatchStepSessionServiceProtocol",
     "LoginAuthServiceProtocol",
     "GetCompletedUserSessionServiceProtocol",
     "RegisterAuthServiceProtocol",

@@ -2,12 +2,14 @@ from fastapi import Request, status
 from fastapi.responses import JSONResponse
 
 from app.core.custom_exceptions import (
+    AircraftPartNotExistsError,
     ExpectRefreshTokenError,
     FormatError,
     HaveOpenSessionError,
     InvalidUsernameOrPasswordError,
     SpeachGenerationError,
     SpeachRecognitionError,
+    StepNotExistsError,
     UserHasNoSessionError,
     UserHasNotPermissionToAircraftError,
     UserWithThisLoginExistsError,
@@ -97,4 +99,22 @@ async def session_not_found_error(
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
         content={"detail": "This user has no open session right now"},
+    )
+
+
+async def step_not_found_error(
+    request: Request, exc: StepNotExistsError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"detail": "This maintenance steps does not exist"},
+    )
+
+
+async def aircraft_part_not_found_error(
+    request: Request, exc: AircraftPartNotExistsError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"detail": "This aircraft part does not exist"},
     )

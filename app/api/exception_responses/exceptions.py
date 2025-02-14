@@ -4,9 +4,11 @@ from fastapi.responses import JSONResponse
 from app.core.custom_exceptions import (
     ExpectRefreshTokenError,
     FormatError,
+    HaveOpenSessionError,
     InvalidUsernameOrPasswordError,
     SpeachGenerationError,
     SpeachRecognitionError,
+    UserHasNoSessionError,
     UserHasNotPermissionToAircraftError,
     UserWithThisLoginExistsError,
 )
@@ -77,4 +79,22 @@ async def no_permission_error(
     return JSONResponse(
         status_code=status.HTTP_403_FORBIDDEN,
         content={"detail": "User has not permission to this aircraft"},
+    )
+
+
+async def open_session_error(
+    request: Request, exc: HaveOpenSessionError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"detail": "You already have open session"},
+    )
+
+
+async def session_not_found_error(
+    request: Request, exc: UserHasNoSessionError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"detail": "This user has no open session right now"},
     )

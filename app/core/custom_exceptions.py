@@ -32,3 +32,11 @@ class FormatError(Exception):
 
 class UserHasNotPermissionToAircraftError(Exception):
     pass
+
+
+class UserHasNoSessionError(Exception):
+    pass
+
+
+class HaveOpenSessionError(Exception):
+    pass

@@ -5,15 +5,19 @@ from app.core.schemas.repo_protocols import (
     AuthRepoProtocol,
     CommonRepoProtocol,
     MaintenanceRepoProtocol,
+    SessionRepoProtocol,
     UserRepoProtocol,
 )
 from app.core.schemas.service_protocols import (
     CommonServiceProtocol,
     FileServiceProtocol,
+    GetCompletedUserSessionServiceProtocol,
+    GetCurrentSessionServiceProtocol,
     GetUserServiceProtocol,
     JWTServiceProtocol,
     LoginAuthServiceProtocol,
     MaintenanceServiceProtocol,
+    PostSessionServiceProtocol,
     RecognitionServiceProtocol,
     RegisterAuthServiceProtocol,
     ReissueTokenServiceProtocol,
@@ -22,10 +26,13 @@ from app.core.schemas.service_protocols import (
 from app.services import (
     CommonService,
     FileService,
+    GetCompletedUserSessionService,
+    GetCurrentSessionService,
     GetUserService,
     JWTService,
     LoginAuthService,
     MaintenanceService,
+    PostSessionService,
     RecognitionService,
     RegisterAuthService,
     ReissueTokenService,
@@ -101,3 +108,28 @@ class ServiceProviders(Provider):
         common_service: CommonServiceProtocol,
     ) -> MaintenanceServiceProtocol:
         return MaintenanceService(maintenance_repo, common_service)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_post_session_service(
+        self,
+        session_repo: SessionRepoProtocol,
+        common_repo: CommonRepoProtocol,
+        common_service: CommonServiceProtocol,
+    ) -> PostSessionServiceProtocol:
+        return PostSessionService(session_repo, common_service, common_repo)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_current_session_service(
+        self,
+        session_repo: SessionRepoProtocol,
+        common_service: CommonServiceProtocol,
+    ) -> GetCurrentSessionServiceProtocol:
+        return GetCurrentSessionService(session_repo, common_service)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_complited_sessions_service(
+        self,
+        session_repo: SessionRepoProtocol,
+        common_service: CommonServiceProtocol,
+    ) -> GetCompletedUserSessionServiceProtocol:
+        return GetCompletedUserSessionService(session_repo, common_service)

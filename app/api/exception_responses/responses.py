@@ -163,6 +163,79 @@ get_aircraft_maintenance_info_exceptions = {
     },
 }
 
+post_session_exceptions = {
+    400: {
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+        "open_session_error": {
+            "summary": "HaveOpenSessionError",
+            "value": {"detail": "You already have open session"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+    403: {
+        "no_permission_error": {
+            "summary": "UserHasNotPermissionToAircraftError",
+            "value": {"detail": "User has not permission to this aircraft"},
+        },
+    },
+}
+
+get_current_session_exceptions = {
+    400: {
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+    404: {
+        "session_not_found_error": {
+            "summary": "UserHasNoSessionError",
+            "value": {"detail": "This user has no open session right now"},
+        },
+    },
+}
+
+get_completed_sessions_exceptions = {
+    400: {
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+}
+
 
 get_user_register_responses = create_error_responses(get_user_register_exceptions)
 get_user_login_responses = create_error_responses(get_user_login_exceptions)
@@ -172,4 +245,9 @@ get_user_info_responses = create_error_responses(get_user_info_exceptions)
 post_recognition_responses = create_error_responses(post_recognition_exceptions)
 get_aircraft_maintenance_info_responses = create_error_responses(
     get_aircraft_maintenance_info_exceptions
+)
+post_session_responses = create_error_responses(post_session_exceptions)
+get_current_session_responses = create_error_responses(get_current_session_exceptions)
+get_completed_sessions_responses = create_error_responses(
+    get_completed_sessions_exceptions
 )

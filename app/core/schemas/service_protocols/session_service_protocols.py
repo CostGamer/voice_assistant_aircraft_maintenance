@@ -3,7 +3,12 @@ from typing import Protocol
 from fastapi import Request
 from pydantic import UUID4
 
-from app.core.models.pydantic_models import GetSession, PostSession, PutStepSession
+from app.core.models.pydantic_models import (
+    GetComplitedSession,
+    GetSession,
+    PostSession,
+    PutStepSession,
+)
 
 
 class PostSessionServiceProtocol(Protocol):
@@ -44,6 +49,6 @@ class PatchCompletedSessionServiceProtocol(Protocol):
     async def __call__(
         self,
         request: Request,
-    ) -> GetSession:
+    ) -> GetComplitedSession:
         """Service that complete current session"""
         pass

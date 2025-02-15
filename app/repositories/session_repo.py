@@ -3,6 +3,7 @@ from sqlalchemy import and_, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.models.pydantic_models import (
+    GetComplitedSession,
     GetSession,
     PostSession,
     StatusEnum,
@@ -116,7 +117,7 @@ class SessionRepo:
         query_res = (await self._con.execute(query)).scalar_one_or_none()
         return query_res is not None
 
-    async def completed_session(self, user_id: UUID4) -> GetSession:
+    async def completed_session(self, user_id: UUID4) -> GetComplitedSession:
         subquery = (
             select(Session.id)
             .join(UsersAircrafts)
@@ -138,4 +139,4 @@ class SessionRepo:
         )
 
         query_res = (await self._con.execute(query)).scalar_one()
-        return GetSession.model_validate(query_res)
+        return GetComplitedSession.model_validate(query_res)

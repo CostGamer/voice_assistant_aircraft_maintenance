@@ -5,20 +5,24 @@ from app.core.schemas.repo_protocols import (
     AuthRepoProtocol,
     CommonRepoProtocol,
     MaintenanceRepoProtocol,
+    ReportRepoProtocol,
     SessionRepoProtocol,
     UserRepoProtocol,
 )
 from app.core.schemas.service_protocols import (
     CommonServiceProtocol,
     FileServiceProtocol,
+    GetAllUserReportsServiceProtocol,
     GetCompletedUserSessionServiceProtocol,
     GetCurrentSessionServiceProtocol,
+    GetReportServiceProtocol,
     GetUserServiceProtocol,
     JWTServiceProtocol,
     LoginAuthServiceProtocol,
     MaintenanceServiceProtocol,
     PatchCompletedSessionServiceProtocol,
     PatchStepSessionServiceProtocol,
+    PostReportServiceProtocol,
     PostSessionServiceProtocol,
     RecognitionServiceProtocol,
     RegisterAuthServiceProtocol,
@@ -28,14 +32,17 @@ from app.core.schemas.service_protocols import (
 from app.services import (
     CommonService,
     FileService,
+    GetAllUserReportsService,
     GetCompletedUserSessionService,
     GetCurrentSessionService,
+    GetReportService,
     GetUserService,
     JWTService,
     LoginAuthService,
     MaintenanceService,
     PatchCompletedSessionService,
     PatchStepSessionService,
+    PostReportService,
     PostSessionService,
     RecognitionService,
     RegisterAuthService,
@@ -153,3 +160,25 @@ class ServiceProviders(Provider):
         common_service: CommonServiceProtocol,
     ) -> PatchCompletedSessionServiceProtocol:
         return PatchCompletedSessionService(session_repo, common_service)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_post_report_service(
+        self,
+        report_repo: ReportRepoProtocol,
+    ) -> PostReportServiceProtocol:
+        return PostReportService(report_repo)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_report_service(
+        self,
+        report_repo: ReportRepoProtocol,
+    ) -> GetReportServiceProtocol:
+        return GetReportService(report_repo)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_all_report_service(
+        self,
+        report_repo: ReportRepoProtocol,
+        common_service: CommonServiceProtocol,
+    ) -> GetAllUserReportsServiceProtocol:
+        return GetAllUserReportsService(report_repo, common_service)

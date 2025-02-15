@@ -4,6 +4,11 @@ from .file_service import FileService
 from .jwt_service import JWTService
 from .maintenance_service import MaintenanceService
 from .recognition_service import RecognitionService
+from .report_service import (
+    GetAllUserReportsService,
+    GetReportService,
+    PostReportService,
+)
 from .session_service import (
     GetCompletedUserSessionService,
     GetCurrentSessionService,
@@ -18,6 +23,9 @@ __all__ = [
     "JWTService",
     "PatchStepSessionService",
     "ReissueTokenService",
+    "PostReportService",
+    "GetAllUserReportsService",
+    "GetReportService",
     "RegisterAuthService",
     "MaintenanceService",
     "LoginAuthService",

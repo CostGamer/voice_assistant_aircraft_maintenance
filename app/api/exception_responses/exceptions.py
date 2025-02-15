@@ -1,12 +1,18 @@
 from fastapi import Request, status
 from fastapi.responses import JSONResponse
+from sqlalchemy.exc import NoResultFound
 
 from app.core.custom_exceptions import (
     AircraftPartNotExistsError,
     ExpectRefreshTokenError,
+    FillOnlyOneParamError,
+    FillSomeIDError,
     FormatError,
     HaveOpenSessionError,
     InvalidUsernameOrPasswordError,
+    ReportExistsError,
+    ReportNotExistsError,
+    SessionNotExistsError,
     SpeachGenerationError,
     SpeachRecognitionError,
     StepNotExistsError,
@@ -93,7 +99,7 @@ async def open_session_error(
     )
 
 
-async def session_not_found_error(
+async def user_has_no_session_error(
     request: Request, exc: UserHasNoSessionError
 ) -> JSONResponse:
     return JSONResponse(
@@ -117,4 +123,52 @@ async def aircraft_part_not_found_error(
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
         content={"detail": "This aircraft part does not exist"},
+    )
+
+
+async def session_not_found_error(
+    request: Request, exc: SessionNotExistsError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"detail": "This session does not exist"},
+    )
+
+
+async def report_not_found_error(
+    request: Request, exc: ReportNotExistsError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"detail": "This report does not exist"},
+    )
+
+
+async def fill_some_gap_error(request: Request, exc: FillSomeIDError) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"detail": "You have to fill one of two params"},
+    )
+
+
+async def fill_only_one_gap_error(
+    request: Request, exc: FillOnlyOneParamError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"detail": "You have to fill only one param"},
+    )
+
+
+async def report_exists_error(request: Request, exc: ReportExistsError) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_409_CONFLICT,
+        content={"detail": "Report for this session is already exists"},
+    )
+
+
+async def no_open_session_error(request: Request, exc: NoResultFound) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"detail": "There is no open session"},
     )

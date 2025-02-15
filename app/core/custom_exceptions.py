@@ -48,3 +48,23 @@ class StepNotExistsError(Exception):
 
 class AircraftPartNotExistsError(Exception):
     pass
+
+
+class SessionNotExistsError(Exception):
+    pass
+
+
+class ReportNotExistsError(Exception):
+    pass
+
+
+class FillSomeIDError(Exception):
+    pass
+
+
+class FillOnlyOneParamError(Exception):
+    pass
+
+
+class ReportExistsError(Exception):
+    pass

@@ -282,6 +282,99 @@ patch_complete_session_exceptions = {
             "value": {"detail": "Invalid JWT"},
         },
     },
+    404: {
+        "no_open_session_error": {
+            "summary": "NoResultFound",
+            "value": {"detail": "There is no open session"},
+        },
+    },
+}
+
+post_report_exceptions = {
+    400: {
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+    404: {
+        "session_not_found_error": {
+            "summary": "SessionNotExistsError",
+            "value": {"detail": "This session does not exist"},
+        },
+    },
+    409: {
+        "report_exists_error": {
+            "summary": "ReportExistsError",
+            "value": {"detail": "Report for this session is already exists"},
+        },
+    },
+}
+
+get_report_exceptions = {
+    400: {
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+        "fill_some_gap_error": {
+            "summary": "FillSomeIDError",
+            "value": {"detail": "You have to fill one of two params"},
+        },
+        "fill_only_one_gap_error": {
+            "summary": "FillOnlyOneParamError",
+            "value": {"detail": "You have to fill only one param"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
+    404: {
+        "session_not_found_error": {
+            "summary": "SessionNotExistsError",
+            "value": {"detail": "This session does not exist"},
+        },
+        "report_not_found_error": {
+            "summary": "ReportNotExistsError",
+            "value": {"detail": "This report does not exist"},
+        },
+    },
+}
+
+get_all_report_exceptions = {
+    400: {
+        "expect_access_token_error": {
+            "summary": "ExpectAccessTokenError",
+            "value": {"detail": "Invalid JWT type"},
+        },
+    },
+    401: {
+        "invalid_token_error": {
+            "summary": "InvalidTokenError",
+            "value": {"detail": "Invalid JWT"},
+        },
+        "missing_or_bad_jwt_error": {
+            "summary": "MissingOrBadJWTError",
+            "value": {"detail": "Invalid JWT"},
+        },
+    },
 }
 
 
@@ -305,3 +398,6 @@ patch_maintenance_step_responses = create_error_responses(
 patch_complete_session_responses = create_error_responses(
     patch_complete_session_exceptions
 )
+post_report_responses = create_error_responses(post_report_exceptions)
+get_report_responses = create_error_responses(get_report_exceptions)
+get_all_report_exceptions_responses = create_error_responses(get_all_report_exceptions)

@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-from logging import getLogger
 from typing import Any
 
 from fastapi import Request
@@ -12,11 +11,14 @@ from app.core.custom_exceptions import (
     UserHasNoSessionError,
     UserHasNotPermissionToAircraftError,
 )
-from app.core.models.pydantic_models import GetSession, PostSession, PutStepSession
+from app.core.models.pydantic_models import (
+    GetComplitedSession,
+    GetSession,
+    PostSession,
+    PutStepSession,
+)
 from app.core.schemas.repo_protocols import CommonRepoProtocol, SessionRepoProtocol
 from app.core.schemas.service_protocols import CommonServiceProtocol
-
-logger = getLogger(__name__)
 
 
 class PostSessionService:
@@ -176,7 +178,7 @@ class PatchCompletedSessionService:
     async def __call__(
         self,
         request: Request,
-    ) -> GetSession:
+    ) -> GetComplitedSession:
         user_id = await self._common_service._get_user_id(request)
 
         return await self._session_repo.completed_session(user_id)

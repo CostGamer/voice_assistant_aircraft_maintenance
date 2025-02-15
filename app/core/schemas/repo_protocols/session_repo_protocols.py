@@ -2,7 +2,7 @@ from typing import Protocol
 
 from pydantic import UUID4
 
-from app.core.models.pydantic_models import GetSession, PostSession
+from app.core.models.pydantic_models import GetComplitedSession, GetSession, PostSession
 from app.core.models.sqlalchemy_models import Session
 
 
@@ -45,6 +45,6 @@ class SessionRepoProtocol(Protocol):
         """Check if the part is real"""
         pass
 
-    async def completed_session(self, user_id: UUID4) -> GetSession:
+    async def completed_session(self, user_id: UUID4) -> GetComplitedSession:
         """Command that finished session"""
         pass

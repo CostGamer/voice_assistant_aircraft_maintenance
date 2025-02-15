@@ -8,6 +8,11 @@ from .file_service_protocols import FileServiceProtocol
 from .jwt_service_protocols import JWTServiceProtocol
 from .maintenance_service_protocols import MaintenanceServiceProtocol
 from .recognition_service_protocols import RecognitionServiceProtocol
+from .report_service_prtocols import (
+    GetAllUserReportsServiceProtocol,
+    GetReportServiceProtocol,
+    PostReportServiceProtocol,
+)
 from .session_service_protocols import (
     GetCompletedUserSessionServiceProtocol,
     GetCurrentSessionServiceProtocol,
@@ -21,6 +26,9 @@ from .user_service_protocols import GetUserServiceProtocol
 __all__ = [
     "JWTServiceProtocol",
     "CommonServiceProtocol",
+    "PostReportServiceProtocol",
+    "GetAllUserReportsServiceProtocol",
+    "GetReportServiceProtocol",
     "PatchStepSessionServiceProtocol",
     "LoginAuthServiceProtocol",
     "GetCompletedUserSessionServiceProtocol",

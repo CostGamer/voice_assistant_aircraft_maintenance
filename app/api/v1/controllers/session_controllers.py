@@ -9,7 +9,12 @@ from app.api.exception_responses.responses import (
     patch_maintenance_step_responses,
     post_session_responses,
 )
-from app.core.models.pydantic_models import GetSession, PostSession, PutStepSession
+from app.core.models.pydantic_models import (
+    GetComplitedSession,
+    GetSession,
+    PostSession,
+    PutStepSession,
+)
 from app.core.schemas.service_protocols import (
     GetCompletedUserSessionServiceProtocol,
     GetCurrentSessionServiceProtocol,
@@ -81,7 +86,7 @@ async def post_maintenance_step(
 
 @session_router.patch(
     "/complete",
-    response_model=GetSession,
+    response_model=GetComplitedSession,
     responses=patch_complete_session_responses,
     description="Finish current session",
 )
@@ -89,5 +94,5 @@ async def post_maintenance_step(
 async def complete_session(
     request: Request,
     get_session_service: FromDishka[PatchCompletedSessionServiceProtocol],
-) -> GetSession:
+) -> GetComplitedSession:
     return await get_session_service(request)

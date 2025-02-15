@@ -40,3 +40,9 @@ class PutStepSession(BaseModel):
     maintainer_reply: str = Field(
         ..., description="The text represantation of the worker reply"
     )
+
+
+class GetComplitedSession(GetSession):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID4 = Field(..., description="ID of updated session")

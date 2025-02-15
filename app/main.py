@@ -6,26 +6,35 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 
 from app.api.exception_responses.exceptions import (
+    aircraft_part_not_found_error,
     format_error,
     invalid_username_password_error,
     is_directory_error,
     no_permission_error,
+    open_session_error,
     refresh_token_expect_error,
+    session_not_found_error,
     speach_generation_error,
     speach_recognition_error,
+    step_not_found_error,
     user_already_exists_error,
 )
 from app.api.v1.controllers.auth_controller import auth_router
 from app.api.v1.controllers.maintenance_controller import maintenance_router
+from app.api.v1.controllers.session_controllers import session_router
 from app.api.v1.controllers.user_controllers import user_router
 from app.api.v1.controllers.voice_controller import voice_router
 from app.core.configs import all_settings
 from app.core.custom_exceptions import (
+    AircraftPartNotExistsError,
     ExpectRefreshTokenError,
     FormatError,
+    HaveOpenSessionError,
     InvalidUsernameOrPasswordError,
     SpeachGenerationError,
     SpeachRecognitionError,
+    StepNotExistsError,
+    UserHasNoSessionError,
     UserHasNotPermissionToAircraftError,
     UserWithThisLoginExistsError,
 )
@@ -46,6 +55,10 @@ def register_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(FormatError, format_error)  # type: ignore
     app.add_exception_handler(SpeachRecognitionError, speach_recognition_error)  # type: ignore
     app.add_exception_handler(UserHasNotPermissionToAircraftError, no_permission_error)  # type: ignore
+    app.add_exception_handler(HaveOpenSessionError, open_session_error)  # type: ignore
+    app.add_exception_handler(UserHasNoSessionError, session_not_found_error)  # type: ignore
+    app.add_exception_handler(StepNotExistsError, step_not_found_error)  # type: ignore
+    app.add_exception_handler(AircraftPartNotExistsError, aircraft_part_not_found_error)  # type: ignore
 
 
 def init_routers(app: FastAPI) -> None:
@@ -53,6 +66,9 @@ def init_routers(app: FastAPI) -> None:
     app.include_router(auth_router, prefix="/v1")
     app.include_router(voice_router, prefix="/v1", dependencies=[Depends(http_bearer)])
     app.include_router(user_router, prefix="/v1", dependencies=[Depends(http_bearer)])
+    app.include_router(
+        session_router, prefix="/v1", dependencies=[Depends(http_bearer)]
+    )
     app.include_router(
         maintenance_router, prefix="/v1", dependencies=[Depends(http_bearer)]
     )

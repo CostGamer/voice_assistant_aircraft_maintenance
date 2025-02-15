@@ -2,6 +2,7 @@ import uuid
 from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base_sql_models import Base
@@ -20,9 +21,10 @@ class Session(Base):
     )
     name: Mapped[str] = mapped_column(nullable=False)
     current_step_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("maintenance_steps.id"), nullable=False
+        ForeignKey("maintenance_steps.id"), nullable=True
     )
     status: Mapped[str] = mapped_column(nullable=False)
+    dialog_history: Mapped[dict] = mapped_column(JSONB, nullable=True)
 
     users_aircrafts: Mapped["UsersAircrafts"] = relationship(
         "UsersAircrafts", back_populates="session"
@@ -35,4 +37,4 @@ class Session(Base):
     reports: Mapped[list["Report"]] = relationship("Report", back_populates="session")
 
     def __repr__(self) -> str:
-        return f"<Session(id={self.id}, name={self.name}, status={self.status}, current_step_id={self.current_step_id})>"
+        return f"<Session(id={self.id}, name={self.name}, status={self.status}, current_step_id={self.current_step_id}, users_aircrafts_id={self.users_aircrafts_id})>"

@@ -5,9 +5,16 @@ from app.core.schemas.repo_protocols import (
     AuthRepoProtocol,
     CommonRepoProtocol,
     MaintenanceRepoProtocol,
+    SessionRepoProtocol,
     UserRepoProtocol,
 )
-from app.repositories import AuthRepo, CommonRepo, MaintenanceRepo, UserRepo
+from app.repositories import (
+    AuthRepo,
+    CommonRepo,
+    MaintenanceRepo,
+    SessionRepo,
+    UserRepo,
+)
 
 
 class RepoProviders(Provider):
@@ -26,3 +33,7 @@ class RepoProviders(Provider):
     @provide(scope=Scope.REQUEST)
     async def get_maintenance_repo(self, con: AsyncSession) -> MaintenanceRepoProtocol:
         return MaintenanceRepo(con)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_session_repo(self, con: AsyncSession) -> SessionRepoProtocol:
+        return SessionRepo(con)

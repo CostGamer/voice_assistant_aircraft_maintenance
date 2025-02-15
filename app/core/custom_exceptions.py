@@ -32,3 +32,19 @@ class FormatError(Exception):
 
 class UserHasNotPermissionToAircraftError(Exception):
     pass
+
+
+class UserHasNoSessionError(Exception):
+    pass
+
+
+class HaveOpenSessionError(Exception):
+    pass
+
+
+class StepNotExistsError(Exception):
+    pass
+
+
+class AircraftPartNotExistsError(Exception):
+    pass

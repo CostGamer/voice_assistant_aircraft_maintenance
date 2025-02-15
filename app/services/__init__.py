@@ -7,6 +7,7 @@ from .recognition_service import RecognitionService
 from .session_service import (
     GetCompletedUserSessionService,
     GetCurrentSessionService,
+    PatchCompletedSessionService,
     PatchStepSessionService,
     PostSessionService,
 )
@@ -28,4 +29,5 @@ __all__ = [
     "GetCompletedUserSessionService",
     "RecognitionService",
     "GetUserService",
+    "PatchCompletedSessionService",
 ]

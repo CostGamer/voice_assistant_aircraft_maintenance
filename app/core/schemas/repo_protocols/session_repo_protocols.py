@@ -44,3 +44,7 @@ class SessionRepoProtocol(Protocol):
     async def check_aircraft_part_exists(self, part_name: str) -> bool:
         """Check if the part is real"""
         pass
+
+    async def completed_session(self, user_id: UUID4) -> GetSession:
+        """Command that finished session"""
+        pass

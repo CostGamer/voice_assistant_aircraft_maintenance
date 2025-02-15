@@ -38,3 +38,12 @@ class PatchStepSessionServiceProtocol(Protocol):
     ) -> dict:
         """Update the JSON od the dialog"""
         pass
+
+
+class PatchCompletedSessionServiceProtocol(Protocol):
+    async def __call__(
+        self,
+        request: Request,
+    ) -> GetSession:
+        """Service that complete current session"""
+        pass

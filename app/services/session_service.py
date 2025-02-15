@@ -46,7 +46,6 @@ class PostSessionService:
 
         content: dict[str, Any] = {
             "messages": [],
-            "status": "in_progress",
         }
 
         res = await self._session_repo.create_session(
@@ -165,3 +164,19 @@ class PatchStepSessionService:
                 )
 
         return updated_dialog_history
+
+
+class PatchCompletedSessionService:
+    def __init__(
+        self, session_repo: SessionRepoProtocol, common_service: CommonServiceProtocol
+    ) -> None:
+        self._session_repo = session_repo
+        self._common_service = common_service
+
+    async def __call__(
+        self,
+        request: Request,
+    ) -> GetSession:
+        user_id = await self._common_service._get_user_id(request)
+
+        return await self._session_repo.completed_session(user_id)

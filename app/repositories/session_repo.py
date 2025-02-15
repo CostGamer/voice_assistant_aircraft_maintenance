@@ -115,3 +115,27 @@ class SessionRepo:
         query = select(AircraftPart).where(AircraftPart.name == part_name)
         query_res = (await self._con.execute(query)).scalar_one_or_none()
         return query_res is not None
+
+    async def completed_session(self, user_id: UUID4) -> GetSession:
+        subquery = (
+            select(Session.id)
+            .join(UsersAircrafts)
+            .where(
+                and_(
+                    UsersAircrafts.user_id == user_id,
+                    Session.status != StatusEnum.COMPLETED,
+                )
+            )
+            .scalar_subquery()
+        )
+
+        query = (
+            update(Session)
+            .where(Session.id == subquery)
+            .values(status=StatusEnum.COMPLETED, current_step_id=None)
+            .execution_options(synchronize_session="fetch")
+            .returning(Session)
+        )
+
+        query_res = (await self._con.execute(query)).scalar_one()
+        return GetSession.model_validate(query_res)

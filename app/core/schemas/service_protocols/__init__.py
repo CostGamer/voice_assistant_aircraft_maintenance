@@ -11,6 +11,7 @@ from .recognition_service_protocols import RecognitionServiceProtocol
 from .session_service_protocols import (
     GetCompletedUserSessionServiceProtocol,
     GetCurrentSessionServiceProtocol,
+    PatchCompletedSessionServiceProtocol,
     PatchStepSessionServiceProtocol,
     PostSessionServiceProtocol,
 )
@@ -28,6 +29,7 @@ __all__ = [
     "ReissueTokenServiceProtocol",
     "PostSessionServiceProtocol",
     "SynthesizeServiceProtocol",
+    "PatchCompletedSessionServiceProtocol",
     "RecognitionServiceProtocol",
     "FileServiceProtocol",
     "GetCurrentSessionServiceProtocol",

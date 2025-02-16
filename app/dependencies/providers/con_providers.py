@@ -1,10 +1,13 @@
 from collections.abc import AsyncIterator
+from logging import getLogger
 
 from dishka import Provider, Scope, provide
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.configs.database import DatabaseConnection
 from app.core.configs.settings import Settings
+
+logger = getLogger(__name__)
 
 
 class DatabaseConnectionProvider(Provider):

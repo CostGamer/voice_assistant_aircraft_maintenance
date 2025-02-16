@@ -78,6 +78,7 @@ class OtherSettings(BaseModel):
     origins: str = Field(
         default="http://localhost:8000,http://127.0.0.1:8000", alias="ALLOWED_IPS"
     )
+    is_testing: bool = Field(default=False)
 
     @property
     def list_of_origins(self) -> list[str]:

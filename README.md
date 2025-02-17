@@ -1,7 +1,7 @@
 # voice_assistant_aircraft_maintenance
 
 ## Описание проекта
-
+Проект голосового помощника для техников в авиационной отрасли
 
 ## Оглавление
 - [Технологии](#технологии)
@@ -119,7 +119,7 @@
    ```
 4. **Примените миграции базы данных:**
    ```bash
-   docker-compose exec ... alembic upgrade head
+   docker-compose exec backend_container alembic upgrade head
    ```
 5. **Сервисы будут доступны по следующим адресам:**
    - `api`: http://localhost:8000
